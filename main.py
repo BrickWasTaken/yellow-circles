@@ -1,17 +1,18 @@
 from random import randint
 import sys
 
-from PyQt5 import uic
 from PyQt5.QtGui import QPainter, QColor
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
+from UI import Ui_Form
 
-class YellowCircles(QMainWindow):
+
+class RandomCircles(QMainWindow, Ui_Form):
     def __init__(self):
         super().__init__()
         self.to_repaint = False
 
-        uic.loadUi('UI.ui', self)
+        self.setupUi(self)
         self.pushButton.clicked.connect(self.btn_click)
         self.setFixedSize(600, 600)
 
@@ -25,7 +26,8 @@ class YellowCircles(QMainWindow):
 
     @staticmethod
     def draw_circle(qp):
-        qp.setBrush(QColor(255, 255, 0))
+        r, g, b = randint(0, 255), randint(0, 255), randint(0, 255)
+        qp.setBrush(QColor(r, g, b))
 
         s = randint(10, 100)
         x, y = randint(0, 600 - s), randint(10, 600 - s)
@@ -38,7 +40,7 @@ def except_hook(c, e, t):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = YellowCircles()
+    ex = RandomCircles()
     ex.show()
     sys.excepthook = except_hook
     sys.exit(app.exec())
